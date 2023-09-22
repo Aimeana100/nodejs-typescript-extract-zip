@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "ts-node src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,7 +12,16 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^20.6.3",
+    "decompress": "^4.2.1",
+    "file-type": "^18.5.0",
+    "istextorbinary": "^6.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "unzipper": "^0.10.14"
+  },
+  "devDependencies": {
+    "@types/decompress": "^4.2.4",
+    "@types/istextorbinary": "^2.3.1",
+    "@types/unzipper": "^0.10.7"
   }
 }
