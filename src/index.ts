@@ -1,9 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import  decompress  from 'decompress';
-import {fileTypeFromFile} from 'file-type';
-import { isText, isBinary, getEncoding } from 'istextorbinary'
-
+import fs from "fs";
+import path from "path";
+import decompress from "decompress";
+import { isText } from "istextorbinary";
 
 interface FileSystemItem {
   name: string;
@@ -12,20 +10,20 @@ interface FileSystemItem {
   children?: FileSystemItem[];
 }
 
-const compressedFilePath = './static/sample-1.zip'; // Replace with your compressed file path
-const outputFilePath = './static/output.json';
+const compressedFilePath = "static/sample-1.zip"; // Replace with your compressed file path
+const outputFilePath = "./static/output.json";
 
-async function extractAndBuildStructure(compressedFilePath: string): Promise<FileSystemItem> {
-
-  // const tempDir = await fs.promises.mkdtemp(path.join(__dirname, 'temp-'));
+async function extractAndBuildStructure(
+  compressedFilePath: string
+): Promise<FileSystemItem> {
   const tempDir = path.join(__dirname, "tempDir");
 
   await decompress(compressedFilePath, tempDir);
+  console.log(compressedFilePath)
 
-console.log(tempDir)
-  // remove mac OS generated files for testing
-  const macOSXFolder = path.join(tempDir, '__MACOSX');
-   await fs.promises.rmdir(macOSXFolder, { recursive: true });
+  // remove mac OS generated files for testing / localfiles
+  const macOSXFolder = path.join(tempDir, "__MACOSX");
+  await fs.promises.rm(macOSXFolder, { recursive: true });
 
   const stats = await fs.promises.stat(tempDir);
   const item: FileSystemItem = {
@@ -48,8 +46,9 @@ console.log(tempDir)
   return item;
 }
 
-async function buildDirectoryStructure(dirPath: string): Promise<FileSystemItem> {
-
+const  buildDirectoryStructure = async(
+  dirPath: string
+): Promise<FileSystemItem> => {
   const stats = await fs.promises.stat(dirPath);
   const item: FileSystemItem = {
     name: path.basename(dirPath),
@@ -62,30 +61,24 @@ async function buildDirectoryStructure(dirPath: string): Promise<FileSystemItem>
     for (const entry of entries) {
       const entryPath = path.join(dirPath, entry);
       item.children.push(await buildDirectoryStructure(entryPath));
-
     }
-  }else{
-      // item.content = await fs.promises.readFile(dirPath, 'utf-8');
-      // console.log(dirPath, await isTextFile(dirPath))
-      if(isBinary(dirPath)){
-        // console.log((await fs.promises.readFile(dirPath, {encoding: 'ascii'})).toString());
-      }
-  
+  } else {
+    if (isText(dirPath)) {
+      item.content = await fs.promises.readFile(dirPath, "utf8");
+      // console.log(await fs.promises.readFile(dirPath, "utf8"), true);
+    }
   }
-
   return item;
 }
 
-async function runExtractionAndStructureBuilding() : Promise<FileSystemItem>{
+ const runExtractionAndStructureBuilding =  async (compressedFilePath: string): Promise<FileSystemItem> => {
   try {
     // Extract and build the structured object of the extracted contents
     const contents = await extractAndBuildStructure(compressedFilePath);
-    // console.log(JSON.stringify(contents, null, 2)); // Print the contents to the console
-    await saveJsonToFile(contents, outputFilePath);
-    return contents
 
+    await saveJsonToFile(contents, outputFilePath);
+    return contents;
   } catch (error) {
-    console.error((error as Error).message);
     throw new Error(error as string);
   }
 }
@@ -96,4 +89,4 @@ async function saveJsonToFile(jsonData: any, filePath: string) {
 }
 
 // Run the extraction and structure building when the file is executed
-runExtractionAndStructureBuilding();
+runExtractionAndStructureBuilding(compressedFilePath);

@@ -58,7 +58,8 @@
         },
         {
           "name": "output.json",
-          "isDirectory": false
+          "isDirectory": false,
+          "content": "{\n  \"name\": \"tempDir\",\n  \"isDirectory\": true,\n  \"children\": [\n    {\n      \"name\": \"sample-1\",\n      \"isDirectory\": true,\n      \"children\": [\n        {\n          \"name\": \".DS_Store\",\n          \"isDirectory\": false\n        },\n        {\n          \"name\": \"folder1\",\n          \"isDirectory\": true,\n          \"children\": [\n            {\n              \"name\": \"sample-5 (1).jpg\",\n              \"isDirectory\": false\n            },\n            {\n              \"name\": \"sample-5.webp\",\n              \"isDirectory\": false\n            }\n          ]\n        },\n        {\n          \"name\": \"folder2\",\n          \"isDirectory\": true,\n          \"children\": [\n            {\n              \"name\": \".DS_Store\",\n              \"isDirectory\": false\n            },\n            {\n              \"name\": \"innerfolder\",\n              \"isDirectory\": true,\n              \"children\": [\n                {\n                  \"name\": \"sample-1.webp\",\n                  \"isDirectory\": false\n                },\n                {\n                  \"name\": \"sample-1_1.webp\",\n                  \"isDirectory\": false\n                }\n              ]\n            },\n            {\n              \"name\": \"sample-1.webp\",\n              \"isDirectory\": false\n            },\n            {\n              \"name\": \"sample-1_1.webp\",\n              \"isDirectory\": false\n            }\n          ]\n        },\n        {\n          \"name\": \"sample-1.webp\",\n          \"isDirectory\": false\n        },\n        {\n          \"name\": \"sample-1_1.webp\",\n          \"isDirectory\": false\n        }\n      ]\n    }\n  ]\n}"
         },
         {
           "name": "sample-1.webp",
